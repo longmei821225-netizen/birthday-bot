@@ -5,7 +5,7 @@ import pytz
 import os
 
 BOT_TOKEN = os.environ["TOKEN"]
-DISCORD_CHANNEL_ID = 1520037247846715463
+DISCORD_CHANNEL_ID = 1520127730178326619
 
 MEMBERS = [
     {"name": "서연", "month": 8, "day": 6},
