@@ -6,6 +6,7 @@ import os
 
 BOT_TOKEN = os.environ["TOKEN"]
 DISCORD_CHANNEL_ID = 1520127730178326619
+WELCOME_CHANNEL_ID = 1521127085362380901
 
 MEMBERS = [
     {"name": "서연", "month": 8, "day": 6},
@@ -35,6 +36,7 @@ MEMBERS = [
 ]
 
 intents = discord.Intents.default()
+intents.members = True
 client = discord.Client(intents=intents)
 
 @tasks.loop(minutes=1)
@@ -51,7 +53,31 @@ async def check_birthday():
 
     for member in MEMBERS:
         if member["month"] == now.month and member["day"] == now.day:
-            await channel.send(f"🎂 오늘은 **{member['name']}이**의 생일이에요!")
+            await channel.send(f"오늘은 **{member['name']}이**의 생일이에요!")
+
+@client.event
+async def on_member_join(member):
+    channel = client.get_channel(WELCOME_CHANNEL_ID)
+    if not channel:
+        return
+
+    embed = discord.Embed(
+        description=f"환영해요, {member.mention}!\n왹왹서버에 오신 것을 환영합니다 🎉",
+        color=0xf8a4c8
+    )
+
+    if member.banner:
+        embed.set_image(url=member.banner.url)
+
+    await channel.send(embed=embed)
+
+@client.event
+async def on_member_remove(member):
+    channel = client.get_channel(WELCOME_CHANNEL_ID)
+    if not channel:
+        return
+
+    await channel.send(f"{member.mention}님이 서버를 떠났어요 👋")
 
 @client.event
 async def on_ready():
