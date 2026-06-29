@@ -65,7 +65,6 @@ async def on_member_join(member):
         description=f"환영해요, {member.mention}!\n왹왹서버에 오신 것을 환영합니다 🎉",
         color=0xf8a4c8
     )
-
     if member.banner:
         embed.set_image(url=member.banner.url)
 
@@ -78,12 +77,13 @@ async def on_member_remove(member):
         return
 
     embed = discord.Embed(
-    description=f"{member.mention}님이 서버를 떠났어요 👋",
-    color=0x808080
-)
-if member.banner:
-    embed.set_image(url=member.banner.url)
-await channel.send(embed=embed)
+        description=f"{member.mention}님이 서버를 떠났어요 👋",
+        color=0x808080
+    )
+    if member.banner:
+        embed.set_image(url=member.banner.url)
+
+    await channel.send(embed=embed)
 
 @client.event
 async def on_ready():
