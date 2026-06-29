@@ -77,7 +77,13 @@ async def on_member_remove(member):
     if not channel:
         return
 
-    await channel.send(f"{member.mention}님이 서버를 떠났어요 👋")
+    embed = discord.Embed(
+    description=f"{member.mention}님이 서버를 떠났어요 👋",
+    color=0x808080
+)
+if member.banner:
+    embed.set_image(url=member.banner.url)
+await channel.send(embed=embed)
 
 @client.event
 async def on_ready():
